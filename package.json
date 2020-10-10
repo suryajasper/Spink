@@ -1,0 +1,26 @@
+{
+    "name": "spink",
+    "version": "1.0.0",
+    "description": "A website for users around the world to run and operate online classes",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/suryajasper/Spink.git"
+    },
+    "author": "Surya Jasper",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/suryajasper/Spink/issues"
+    },
+    "homepage": "https://github.com/suryajasper/Spink#readme",
+    "dependencies": {
+        "express": "^4.17.1",
+        "firebase-admin": "^9.2.0",
+        "http": "0.0.1-security",
+        "socket.io": "^2.3.0"
+    }
+}
