@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <title>Sign up</title>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<link rel="stylesheet" href="resources/css/main.css">
+<script src="/socket.io/socket.io.js"></script>
+
+<body>
+    <div class="centered" style="width: 50%;">
+        <div class="signup-block">
+            <form>
+                <div class="form__group field">
+                    <input type="input" class="form__field" placeholder="first name" name="fname" id="fname" required/>
+                    <label for="fname" class="form__label">First Name</label>
+                </div>
+                <div class="form__group field">
+                    <input type="input" class="form__field" placeholder="last name" name="lname" id="lname" required/>
+                    <label for="lname" class="form__label">Last Name</label>
+                </div>
+                <div class="form__group field">
+                    <input type="email" class="form__field" placeholder="email" name="email" id="email" required/>
+                    <label for="email" class="form__label">Email Address</label>
+                </div>
+                <div class="form__group field">
+                    <input type="password" class="form__field" placeholder="password" name="password" id="password" required/>
+                    <label for="password" class="form__label">Password</label>
+                </div>
+                <div class="form__group field">
+                    <input type="password" class="form__field" placeholder="password" name="password_reenter" id="password_reenter" required/>
+                    <label for="password_reenter" class="form__label">Re-enter Password</label>
+                </div>
+                <br>
+                <button id="submitButton" class="loginButton">Sign Up</button>
+                <button class="loginButton" onclick="window.location.href = '/'">Log In</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-auth.js"></script>
+    <script src="resources/js/auth/firebase.js"></script>
+    <script src="resources/js/auth/signup.js"></script>
+</body>
+
+</html>
