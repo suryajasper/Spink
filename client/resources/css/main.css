@@ -261,9 +261,9 @@ textarea {
 
 .timeDiv {
     position: relative;
+    display: table;
     margin-left: 10px;
     margin-top: 4px;
-    display: block;
     width: 100%;
 }
 
@@ -287,6 +287,26 @@ textarea {
     display: inline-block;
     margin-left: 8px;
     margin-right: 8px;
+}
+
+.timeDiv .verticalAlignWrapper {
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.timeDiv .deleteButton {
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    background: #7c0909;
+    float: right;
+    color: white;
+    position: relative;
+    cursor: pointer;
+    font-size: 0.75em;
 }
 
 button.submit {

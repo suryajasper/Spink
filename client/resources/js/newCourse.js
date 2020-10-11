@@ -103,6 +103,7 @@ daySelect.onValueChange = function() {
         addTimeButton.onclick = function() {
             var timeDiv = document.createElement('div');
             timeDiv.classList.add('timeDiv');
+            timeDiv.style.display = 'table';
 
             var inpStart = createInput('time', 'startTime *');
             inpStart.div.classList.add('timeDivInput');
@@ -118,9 +119,21 @@ daySelect.onValueChange = function() {
             inpEnd.div.classList.add('right');
             inpEnd.input.oninput = refreshTotalTime;
 
+            var deleteButtonWrapper = document.createElement('div');
+            deleteButtonWrapper.classList.add('verticalAlignWrapper');
+            var deleteButton = document.createElement('button');
+            deleteButton.innerHTML = 'Remove';
+            deleteButton.classList.add('deleteButton');
+            deleteButton.onclick = function() {
+                timeDiv.remove();
+                refreshTotalTime();
+            }
+            deleteButtonWrapper.appendChild(deleteButton);
+
             timeDiv.appendChild(inpStart.div);
             timeDiv.appendChild(sep);
             timeDiv.appendChild(inpEnd.div);
+            timeDiv.appendChild(deleteButtonWrapper);
 
             timesDiv.appendChild(timeDiv);
         }
