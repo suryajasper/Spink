@@ -1,19 +1,20 @@
 /*Source = https://www.w3schools.com/howto/tryit.asp?filename=tryhow_custom_select*/
 var x, i, j, l, ll, selElmnt, a, b, c;
-var Select = { selected: null };
 
 /*look for any elements with the class "custom-select":*/
 x = document.getElementsByClassName("custom-select");
 l = x.length;
-for (i = 0; i < l; i++) {
+for (i = 0; i < l; i++)(function(i) {
     selElmnt = x[i].getElementsByTagName("select")[0];
     ll = selElmnt.length;
     /*for each element, create a new DIV that will act as the selected item:*/
     a = document.createElement("DIV");
     a.setAttribute("class", "select-selected");
     a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-    Select.selected = a.innerHTML;
+    x[i].selectedValue = a.innerHTML;
     x[i].appendChild(a);
+
+    var currSelect = x[i];
     /*for each element, create a new DIV that will contain the option list:*/
     b = document.createElement("DIV");
     b.setAttribute("class", "select-items select-hide");
@@ -31,8 +32,10 @@ for (i = 0; i < l; i++) {
             h = this.parentNode.previousSibling;
             for (i = 0; i < sl; i++) {
                 if (s.options[i].innerHTML == this.innerHTML) {
-                    console.log(this.innerHTML);
-                    Select.selected = this.innerHTML;
+                    currSelect.selectedValue = this.innerHTML;
+                    if (currSelect.onValueChange) {
+                        currSelect.onValueChange();
+                    }
                     s.selectedIndex = i;
                     h.innerHTML = this.innerHTML;
                     y = this.parentNode.getElementsByClassName("same-as-selected");
@@ -58,7 +61,7 @@ for (i = 0; i < l; i++) {
         this.nextSibling.classList.toggle("select-hide");
         this.classList.toggle("select-arrow-active");
     });
-}
+})(i)
 
 function closeAllSelect(elmnt) {
     /*a function that will close all select boxes in the document,
