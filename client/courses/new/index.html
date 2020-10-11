@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <title>New Class</title>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<link rel="stylesheet" href="../../resources/css/main.css">
+<script src="/socket.io/socket.io.js"></script>
+
+<body onload="init();">
+    <div class="header">
+        <div class="headerRight">
+        </div>
+    </div>
+    <div class="main" style="margin-top: 50px;">
+        <div class="newCourseForm">
+            <p>Name and Description</p>
+            <div class="formSection">
+                <div class="form__group field">
+                    <input type="input" class="form__field" placeholder="ex: Intro to Node.js" name="className" id="className" required/>
+                    <label for="className" class="form__label">Class Name</label>
+                </div><br>
+                <div class="form__group field">
+                    <textarea rows="1" class="form__field" placeholder="ex: Intro to Node.js" id="classDescription" required></textarea>
+                    <label for="classDescription" class="form__label">Class Description</label>
+                </div>
+            </div>
+            <p>Category</p>
+            <div class="formSection">
+                <div class="custom-select">
+                    <select id="topicIn">
+                        <option value="0">--Select Category</option>
+                        <option value="1">Computer Science</option>
+                        <option value="2">Math</option>
+                        <option value="3">Science</option>
+                        <option value="4">English</option>
+                        <option value="5">Foreign Language</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <p>Class Size</p>
+            <div class="formSection">
+                <input type="checkbox" id="sessionTypeInd">
+                <label for="sessionTypeInd">1 on 1</label><br>
+                <input type="checkbox" id="sessionTypeGroup">
+                <label for="sessionTypeGroup">Group</label>
+                <div class="form__group field">
+                    <input type="number" class="form__field" placeholder="15" id="classSize" required/>
+                    <label for="classSize" class="form__label">Max Number of Students</label>
+                </div>
+            </div>
+            <p>Availability</p>
+            <div class="formSection">
+
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-auth.js"></script>
+    <script src="../../resources/js/auth/firebase.js"></script>
+    <script src="../../resources/js/customSelect.js"></script>
+    <script src="../../resources/js/customTextarea.js"></script>
+</body>
+
+</html>
