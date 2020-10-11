@@ -1,3 +1,6 @@
+var socket = io();
+initializeFirebase();
+
 function dom(id) {
     return document.getElementById(id);
 }
@@ -36,12 +39,10 @@ function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
 
-var daySelect = dom('dayIn');
-var selectedDays = [];
 
-var dayToTimes = {};
 
-dom('createCourseButton').disabled = true;
+
+//dom('createCourseButton').disabled = true;
 
 function diff(start, end) {
     start = start.value; //to update time value in each input bar
@@ -60,87 +61,150 @@ function diff(start, end) {
     return { hours: hours, minutes: minutes };
 }
 
-daySelect.onValueChange = function() {
-    if (!selectedDays.includes(this.selectedValue)) {
-        dayToTimes[this.selectedValue] = [];
-        var dayDiv = document.createElement('div');
-        dayDiv.classList.add('dayDiv');
+function militaryToRegular(time) {
+    time = time.split(':');
 
-        var p = document.createElement('p');
-        p.innerHTML = this.selectedValue;
-        p.classList.add('dayDivText');
-        var timespan = document.createElement('span');
-        timespan.innerHTML = ' 0 hours and 0 minutes';
-        timespan.classList.add('timeDivTimeSpan');
-        p.append(timespan);
-        dayDiv.appendChild(p);
+    var hours = Number(time[0]);
+    var minutes = Number(time[1]);
 
-        var timesDiv = document.createElement('div');
+    var timeValue;
 
-        function refreshTotalTime() {
-            var total = { hours: 0, minutes: 0 }
-            for (var div of timesDiv.children) {
-                var startInp = div.getElementsByTagName('input')[0];
-                var endInp = div.getElementsByTagName('input')[1];
-
-                if (startInp.value === '' || endInp.value === '') {
-                    break;
-                }
-
-                var timeForDiv = diff(startInp, endInp);
-                total.hours += timeForDiv.hours;
-                total.minutes += timeForDiv.minutes;
-            }
-            total.hours += parseInt(total.minutes / 60);
-            total.minutes %= 60;
-            timespan.innerHTML = ' ' + total.hours + " hours and " + total.minutes + ' minutes';
-        }
-
-
-        var addTimeButton = document.createElement('button');
-        addTimeButton.classList.add('dayDivButton');
-        addTimeButton.innerHTML = 'Add Time';
-        addTimeButton.onclick = function() {
-            var timeDiv = document.createElement('div');
-            timeDiv.classList.add('timeDiv');
-            timeDiv.style.display = 'table';
-
-            var inpStart = createInput('time', 'startTime *');
-            inpStart.div.classList.add('timeDivInput');
-            inpStart.div.classList.add('left');
-            inpStart.input.oninput = refreshTotalTime;
-
-            var sep = document.createElement('p');
-            sep.innerHTML = 'to';
-            sep.classList.add('timeDivSeparator');
-
-            var inpEnd = createInput('time', 'endTime *');
-            inpEnd.div.classList.add('timeDivInput');
-            inpEnd.div.classList.add('right');
-            inpEnd.input.oninput = refreshTotalTime;
-
-            var deleteButtonWrapper = document.createElement('div');
-            deleteButtonWrapper.classList.add('verticalAlignWrapper');
-            var deleteButton = document.createElement('button');
-            deleteButton.innerHTML = 'Remove';
-            deleteButton.classList.add('deleteButton');
-            deleteButton.onclick = function() {
-                timeDiv.remove();
-                refreshTotalTime();
-            }
-            deleteButtonWrapper.appendChild(deleteButton);
-
-            timeDiv.appendChild(inpStart.div);
-            timeDiv.appendChild(sep);
-            timeDiv.appendChild(inpEnd.div);
-            timeDiv.appendChild(deleteButtonWrapper);
-
-            timesDiv.appendChild(timeDiv);
-        }
-        dayDiv.appendChild(addTimeButton);
-        dayDiv.appendChild(timesDiv);
-        dom('availabilityDiv').appendChild(dayDiv);
-
-        selectedDays.push(this.selectedValue);
+    if (hours > 0 && hours <= 12) {
+        timeValue = "" + hours;
+    } else if (hours > 12) {
+        timeValue = "" + (hours - 12);
+    } else if (hours == 0) {
+        timeValue = "12";
     }
+
+    timeValue += (minutes < 10) ? ":0" + minutes : ":" + minutes; // get minutes
+    timeValue += (hours >= 12) ? " P.M." : " A.M."; // get AM/PM
+
+    return timeValue;
 }
+
+var daySelect = dom('dayIn');
+var selectedDays = [];
+
+var dayToTimes = {};
+firebase.auth().onAuthStateChanged(function(user) {
+    if (!user) {
+        window.location.href = '/courses/'
+    }
+    daySelect.onValueChange = function() {
+        if (!selectedDays.includes(this.selectedValue)) {
+            var day = this.selectedValue;
+            dayToTimes[day] = {};
+            var dayDiv = document.createElement('div');
+            dayDiv.classList.add('dayDiv');
+
+            var p = document.createElement('p');
+            p.innerHTML = this.selectedValue;
+            p.classList.add('dayDivText');
+            var timespan = document.createElement('span');
+            timespan.innerHTML = ' 0 hours and 0 minutes';
+            timespan.classList.add('timeDivTimeSpan');
+            p.append(timespan);
+            dayDiv.appendChild(p);
+
+            var timesDiv = document.createElement('div');
+
+            function refreshTotalTime() {
+                var total = { hours: 0, minutes: 0 }
+                var timeArr = [];
+                for (var div of timesDiv.children) {
+                    var startInp = div.getElementsByTagName('input')[0];
+                    var endInp = div.getElementsByTagName('input')[1];
+
+                    if (startInp.value === '' || endInp.value === '') {
+                        break;
+                    }
+
+                    timeArr.push({
+                        start: militaryToRegular(startInp.value),
+                        end: militaryToRegular(endInp.value)
+                    });
+
+                    var timeForDiv = diff(startInp, endInp);
+                    total.hours += timeForDiv.hours;
+                    total.minutes += timeForDiv.minutes;
+                }
+                total.hours += parseInt(total.minutes / 60);
+                total.minutes %= 60;
+                timespan.innerHTML = ' ' + total.hours + " hours and " + total.minutes + ' minutes';
+
+                dayToTimes[day] = {
+                    totalTime: total,
+                    times: timeArr
+                }
+            }
+
+
+            var addTimeButton = document.createElement('button');
+            addTimeButton.classList.add('dayDivButton');
+            addTimeButton.innerHTML = 'Add Time';
+            addTimeButton.onclick = function() {
+                var timeDiv = document.createElement('div');
+                timeDiv.classList.add('timeDiv');
+                timeDiv.style.display = 'table';
+
+                var inpStart = createInput('time', 'startTime *');
+                inpStart.div.classList.add('timeDivInput');
+                inpStart.div.classList.add('left');
+                inpStart.input.oninput = refreshTotalTime;
+
+                var sep = document.createElement('p');
+                sep.innerHTML = 'to';
+                sep.classList.add('timeDivSeparator');
+
+                var inpEnd = createInput('time', 'endTime *');
+                inpEnd.div.classList.add('timeDivInput');
+                inpEnd.div.classList.add('right');
+                inpEnd.input.oninput = refreshTotalTime;
+
+                var deleteButtonWrapper = document.createElement('div');
+                deleteButtonWrapper.classList.add('verticalAlignWrapper');
+                var deleteButton = document.createElement('button');
+                deleteButton.innerHTML = 'Remove';
+                deleteButton.classList.add('deleteButton');
+                deleteButton.onclick = function() {
+                    timeDiv.remove();
+                    refreshTotalTime();
+                }
+                deleteButtonWrapper.appendChild(deleteButton);
+
+                timeDiv.appendChild(inpStart.div);
+                timeDiv.appendChild(sep);
+                timeDiv.appendChild(inpEnd.div);
+                timeDiv.appendChild(deleteButtonWrapper);
+
+                timesDiv.appendChild(timeDiv);
+            }
+            dayDiv.appendChild(addTimeButton);
+            dayDiv.appendChild(timesDiv);
+            dom('availabilityDiv').appendChild(dayDiv);
+
+            selectedDays.push(this.selectedValue);
+        }
+    }
+
+    dom('createCourseButton').onclick = function() {
+        var data = {
+            name: dom('className').value,
+            description: dom('classDescription').value,
+            category: dom('topicIn').selectedValue,
+            classSize: {
+                ind: dom('sessionTypeInd').checked,
+                group: dom('sessionTypeGroup').checked,
+                maxSize: parseInt(dom('classSize').value)
+            },
+            availability: {
+                byDay: dayToTimes,
+                notes: dom('availabilityNotes').value
+            }
+        }
+        console.log(data);
+        socket.emit('createCourse', user.uid, data);
+        window.location.href = '/courses/';
+    }
+})

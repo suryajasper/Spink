@@ -29,7 +29,7 @@
             <div class="formSection">
                 <div class="custom-select">
                     <select id="topicIn">
-                        <option value="0">--Select Category</option>
+                        <option value="0">--Select Category *</option>
                         <option value="1">Computer Science</option>
                         <option value="2">Math</option>
                         <option value="3">Science</option>
@@ -51,18 +51,24 @@
                 </div>
             </div>
             <p class="formSectionHeading">Availability</p>
-            <div class="formSection" id="availabilityDiv">
-                <div class="custom-select">
-                    <select id="dayIn">
-                        <option value="0">--Select All Days</option>
-                        <option value="1">Monday</option>
-                        <option value="2">Tuesday</option>
-                        <option value="3">Wednesday</option>
-                        <option value="4">Thursday</option>
-                        <option value="5">Friday</option>
-                        <option value="6">Saturday</option>
-                        <option value="9">Sunday</option>
-                    </select>
+            <div class="formSection">
+                <div id="availabilityDiv">
+                    <div class="custom-select">
+                        <select id="dayIn">
+                            <option value="0">--Select All Days * </option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                            <option value="9">Sunday</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form__group field">
+                    <textarea rows="1" class="form__field" placeholder="Additional Notes" id="availabilityNotes"></textarea>
+                    <label for="availabilityNotes" class="form__label">Additional Notes for Availability</label>
                 </div>
             </div>
             <button class="submit" id="createCourseButton">Create</button>

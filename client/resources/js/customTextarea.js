@@ -11,7 +11,7 @@ if (window.attachEvent) {
 
 function init() {
     var textareas = document.getElementsByTagName('textarea');
-    for (var text of textareas) {
+    for (var text of textareas)(function(text) {
         function resize() {
             text.style.height = 'auto';
             text.style.height = text.scrollHeight + 'px';
@@ -27,6 +27,6 @@ function init() {
         observe(text, 'keydown', delayedResize);
 
         resize();
-    }
+    })(text)
 
 }
