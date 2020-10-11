@@ -288,3 +288,35 @@ textarea {
     margin-left: 8px;
     margin-right: 8px;
 }
+
+button.submit {
+    margin-top: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    color: white;
+    background-color: #35644a;
+    cursor: pointer;
+}
+
+button.submit:hover {
+    background-color: #347953;
+}
+
+button.submit:active {
+    background-color: #34ad6a;
+}
+
+button.submit:disabled {
+    background-color: #5f6d65;
+    color: #a8a8a8;
+}
+
+.timeDivTimeSpan {
+    font-size: 0.8em;
+    color: #bababa;
+}

@@ -14,18 +14,18 @@
     </div>
     <div class="main" style="margin-top: 50px;">
         <div class="newCourseForm">
-            <p class="formSectionHeading">Name and Description</p>
+            <p class="formSectionHeading">Name and Description *</p>
             <div class="formSection">
                 <div class="form__group field">
                     <input type="input" class="form__field" placeholder="ex: Intro to Node.js" name="className" id="className" required/>
-                    <label for="className" class="form__label">Class Name</label>
+                    <label for="className" class="form__label">Class Name *</label>
                 </div><br>
                 <div class="form__group field">
                     <textarea rows="1" class="form__field" placeholder="ex: Intro to Node.js" id="classDescription" required></textarea>
-                    <label for="classDescription" class="form__label">Class Description</label>
+                    <label for="classDescription" class="form__label">Class Description *</label>
                 </div>
             </div>
-            <p class="formSectionHeading">Category</p>
+            <p class="formSectionHeading">Category *</p>
             <div class="formSection">
                 <div class="custom-select">
                     <select id="topicIn">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <br>
-            <p class="formSectionHeading">Class Size</p>
+            <p class="formSectionHeading">Class Size *</p>
             <div class="formSection">
                 <input type="checkbox" id="sessionTypeInd">
                 <label for="sessionTypeInd">1 on 1</label><br>
@@ -65,6 +65,7 @@
                     </select>
                 </div>
             </div>
+            <button class="submit" id="createCourseButton">Create</button>
         </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
