@@ -14,7 +14,7 @@
     </div>
     <div class="main" style="margin-top: 50px;">
         <div class="newCourseForm">
-            <p>Name and Description</p>
+            <p class="formSectionHeading">Name and Description</p>
             <div class="formSection">
                 <div class="form__group field">
                     <input type="input" class="form__field" placeholder="ex: Intro to Node.js" name="className" id="className" required/>
@@ -25,7 +25,7 @@
                     <label for="classDescription" class="form__label">Class Description</label>
                 </div>
             </div>
-            <p>Category</p>
+            <p class="formSectionHeading">Category</p>
             <div class="formSection">
                 <div class="custom-select">
                     <select id="topicIn">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <br>
-            <p>Class Size</p>
+            <p class="formSectionHeading">Class Size</p>
             <div class="formSection">
                 <input type="checkbox" id="sessionTypeInd">
                 <label for="sessionTypeInd">1 on 1</label><br>
@@ -50,9 +50,20 @@
                     <label for="classSize" class="form__label">Max Number of Students</label>
                 </div>
             </div>
-            <p>Availability</p>
-            <div class="formSection">
-
+            <p class="formSectionHeading">Availability</p>
+            <div class="formSection" id="availabilityDiv">
+                <div class="custom-select">
+                    <select id="dayIn">
+                        <option value="0">--Select All Days</option>
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                        <option value="6">Saturday</option>
+                        <option value="9">Sunday</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -61,6 +72,7 @@
     <script src="../../resources/js/auth/firebase.js"></script>
     <script src="../../resources/js/customSelect.js"></script>
     <script src="../../resources/js/customTextarea.js"></script>
+    <script src="../../resources/js/newCourse.js"></script>
 </body>
 
 </html>

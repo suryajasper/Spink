@@ -10,7 +10,7 @@ for (i = 0; i < l; i++)(function(i) {
     /*for each element, create a new DIV that will act as the selected item:*/
     a = document.createElement("DIV");
     a.setAttribute("class", "select-selected");
-    a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+    a.innerHTML = selElmnt.options[0].innerHTML;
     x[i].selectedValue = a.innerHTML;
     x[i].appendChild(a);
 
@@ -18,7 +18,7 @@ for (i = 0; i < l; i++)(function(i) {
     /*for each element, create a new DIV that will contain the option list:*/
     b = document.createElement("DIV");
     b.setAttribute("class", "select-items select-hide");
-    for (j = 1; j < ll; j++) {
+    for (j = 1; j < ll; j++)(function(j) {
         /*for each option in the original select element,
         create a new DIV that will act as an option item:*/
         c = document.createElement("DIV");
@@ -32,9 +32,10 @@ for (i = 0; i < l; i++)(function(i) {
             h = this.parentNode.previousSibling;
             for (i = 0; i < sl; i++) {
                 if (s.options[i].innerHTML == this.innerHTML) {
-                    currSelect.selectedValue = this.innerHTML;
-                    if (currSelect.onValueChange) {
-                        currSelect.onValueChange();
+                    s.selectedValue = this.innerHTML;
+                    s.selectedOption = s.options[i];
+                    if (s.onValueChange) {
+                        s.onValueChange();
                     }
                     s.selectedIndex = i;
                     h.innerHTML = this.innerHTML;
@@ -50,7 +51,7 @@ for (i = 0; i < l; i++)(function(i) {
             h.click();
         });
         b.appendChild(c);
-    }
+    })(j)
     selElmnt.options[0].click();
     x[i].appendChild(b);
     a.addEventListener("click", function(e) {

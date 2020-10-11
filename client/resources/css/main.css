@@ -111,6 +111,7 @@ body * {
 
 .header {
     position: fixed;
+    z-index: 1000;
     top: 0px;
     width: 100%;
     height: 50px;
@@ -208,10 +209,12 @@ body * {
     width: 60%;
 }
 
-.newCourseForm p {
-    font-size: 1.5em;
+.newCourseForm p.formSectionHeading {
+    font-size: 1.75em;
     margin-bottom: 2px;
     text-align: left;
+    border-bottom: 1px solid white;
+    margin-bottom: 5px;
 }
 
 .formSection {
@@ -221,4 +224,67 @@ body * {
 
 textarea {
     resize: vertical;
+}
+
+.dayDiv {
+    display: block;
+    position: relative;
+    width: 100%;
+}
+
+.dayDiv .dayDivText {
+    position: relative;
+    font-size: 1.25em;
+    left: 0px;
+}
+
+.dayDiv .dayDivButton {
+    position: absolute;
+    display: inline-block;
+    top: 0px;
+    right: 0px;
+    padding: 6px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    border-bottom: solid 1px white;
+}
+
+.dayDiv .dayDivButton:hover {
+    border-bottom: solid 2px white;
+    transition: transform 250ms ease-in-out;
+    transform: scaleX(1);
+}
+
+.timeDiv {
+    position: relative;
+    margin-left: 10px;
+    margin-top: 4px;
+    display: block;
+    width: 100%;
+}
+
+.timeDivInput {
+    position: relative;
+    margin-top: 0px;
+    display: inline-block;
+    width: fit-content;
+    top: 0px;
+}
+
+.timeDivInput.left {
+    left: 0px;
+}
+
+.timeDivInput.right {
+    right: 0px;
+}
+
+.timeDivSeparator {
+    display: inline-block;
+    margin-left: 8px;
+    margin-right: 8px;
 }
