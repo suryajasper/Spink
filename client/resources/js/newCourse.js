@@ -39,9 +39,6 @@ function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
 
-
-
-
 //dom('createCourseButton').disabled = true;
 
 function diff(start, end) {

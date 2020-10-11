@@ -340,3 +340,78 @@ button.submit:disabled {
     font-size: 0.8em;
     color: #bababa;
 }
+
+.flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+@media (max-width: 400px) {
+    .flex-container {
+        display: block;
+    }
+}
+
+.course-block {
+    flex: 2;
+    position: relative;
+    width: 300px;
+    background-color: #0f0f0f;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.course-block .course-block-title {
+    float: left;
+    font-size: 1.5em;
+    margin: 0px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+}
+
+.course-block .course-block-category {
+    float: right;
+    top: 0px;
+    margin: 0px;
+    margin-bottom: 8px;
+    /*margin-top: 5px;*/
+    border-radius: 3px;
+    background-color: #404040;
+    padding: 5px;
+}
+
+.course-block .course-block-author {
+    color: #e1bf7f;
+}
+
+.course-block .course-block-description {
+    color: #a8a8a8;
+}
+
+.course-block .course-block-dates {
+    color: #b6e2c1;
+}
+
+.course-block .course-block-button {
+    width: 100%;
+    height: 30px;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid white;
+    cursor: pointer;
+    color: white;
+    transition: 0.25s ease-in-out;
+}
+
+.course-block .course-block-button:hover {
+    background-color: #ffffff1f;
+    transition: 0.25s ease-in-out;
+    border-radius: 5px;
+}
+
+.course-block .course-block-button:active {
+    background-color: #ffffff2b;
+    border-width: 3px;
+}
