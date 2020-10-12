@@ -357,6 +357,7 @@ button.submit:disabled {
 }
 
 .course-block {
+    margin: 5px;
     flex: 2;
     position: relative;
     width: 300px;
@@ -399,6 +400,7 @@ button.submit:disabled {
 .course-block .course-block-button {
     width: 100%;
     height: 30px;
+    float: bottom;
     font-size: 1em;
     border: none;
     outline: none;

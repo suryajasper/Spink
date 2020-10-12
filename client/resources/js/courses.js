@@ -11,8 +11,12 @@ function removeAll() {
         console.log('hoorah');
         for (var flexBox of dom('courseDiv').children) {
             var childCount = flexBox.childElementCount;
-            for (var child = 0; child < childCount; child++) {
-                detached.push($(flexBox.children[0]).detach());
+            if (flexBox.classList.contains('course-block')) {
+                detached.push($(flexBox).detach());
+            } else {
+                for (var child = 0; child < childCount; child++) {
+                    detached.push($(flexBox.children[0]).detach());
+                }
             }
         }
         var childCount = dom('courseDiv').childElementCount;
@@ -52,6 +56,46 @@ function refreshRows() {
         }
         dom('courseDiv').appendChild(currDiv);
     }
+}
+
+function addElWithClass(tag, innerHTML, className) {
+    var el = document.createElement(tag);
+    if (innerHTML)
+        el.innerHTML = innerHTML;
+    if (className)
+        el.classList.add(className);
+    return el;
+}
+
+function addBlock(data) {
+    /*
+    <div class="course-block">
+        <p class="course-block-title">Intro to CS</p>
+        <p class="course-block-category">Computer Science</p>
+        <br/><br/>
+        <p class="course-block-author">Taught by Surya Jasper</p>
+        <p class="course-block-description">This is a course about programming.<br>So get your thinking caps ready!</p>
+        <p class="course-block-dates">Sundays, Mondays, and Tuesdays</p>
+        <button class="course-block-button">View</button>
+    </div>
+    */
+    var div = document.createElement('div');
+    div.classList.add('course-block');
+
+    div.appendChild(addElWithClass('p', data.name, "course-block-title"));
+    div.appendChild(addElWithClass('p', data.category, "course-block-category"));
+    div.appendChild(addElWithClass('br'));
+    div.appendChild(addElWithClass('br'));
+    div.appendChild(addElWithClass('p', data.author, "course-block-author"));
+    div.appendChild(addElWithClass('p', data.description, "course-block-description"));
+    div.appendChild(addElWithClass('p', data.dates, "course-block-dates"));
+
+    var button = addElWithClass('button', 'View', 'course-block-button');
+    button.onclick = function() { window.location.href = '/courses/view/?' + data.name; }
+    div.appendChild(button);
+
+    dom('courseDiv').appendChild(div);
+    refreshRows();
 }
 
 window.addEventListener('resize', refreshRows);
