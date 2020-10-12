@@ -341,6 +341,10 @@ button.submit:disabled {
     color: #bababa;
 }
 
+.flex-container-outer {
+    display: block;
+}
+
 .flex-container {
     display: flex;
     flex-wrap: nowrap;

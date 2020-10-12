@@ -3,27 +3,19 @@
 <head>
     <title>Log In</title>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <link rel="stylesheet" href="../resources/css/main.css">
 <script src="/socket.io/socket.io.js"></script>
 
-<body>
+<body onload="refreshRows();">
     <div class="header">
         <div class="headerRight">
             <a href="new/">+ New Class</a>
         </div>
     </div>
     <div class="main" style="margin-top: 50px;">
-        <div class="flex-container">
-            <div class="course-block">
-                <p class="course-block-title">Intro to CS</p>
-                <p class="course-block-category">Computer Science</p>
-                <br/><br/>
-                <p class="course-block-author">Taught by Surya Jasper</p>
-                <p class="course-block-description">This is a course about programming.<br>So get your thinking caps ready!</p>
-                <p class="course-block-dates">Sundays, Mondays, and Tuesdays</p>
-                <button class="course-block-button">View</button>
-            </div>
+        <div class="flex-container-outer" id="courseDiv">
             <div class="course-block">
                 <p class="course-block-title">Intro to CS</p>
                 <p class="course-block-category">Computer Science</p>
@@ -83,6 +75,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-auth.js"></script>
     <script src="../resources/js/auth/firebase.js"></script>
+    <script src="../resources/js/courses.js"></script>
 </body>
 
 </html>
