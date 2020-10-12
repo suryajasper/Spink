@@ -1,3 +1,5 @@
+var socket = io();
+
 function dom(id) {
     return document.getElementById(id);
 }
@@ -32,7 +34,8 @@ function removeAll() {
 }
 
 function refreshRows() {
-    var maxEl = Math.round(window.innerWidth / 350);
+    if (dom('courseDiv').childElementCount === 0) return;
+    var maxEl = Math.floor(window.innerWidth / 350);
     if (maxEl !== lastResize) {
         // when it's the number of nodes -1
         lastResize = maxEl;
@@ -44,7 +47,7 @@ function refreshRows() {
         var i = 0;
         while (detached.length > 0) {
             console.log(detached.length + ' ' + i);
-            var popped = detached.pop(0);
+            var popped = detached.pop();
             console.log(popped);
             if (i++ >= maxEl) {
                 i = 0;
@@ -91,11 +94,24 @@ function addBlock(data) {
     div.appendChild(addElWithClass('p', data.dates, "course-block-dates"));
 
     var button = addElWithClass('button', 'View', 'course-block-button');
-    button.onclick = function() { window.location.href = '/courses/view/?' + data.name; }
+    button.onclick = function() { window.location.href = '/courses/view/?name=' + data.name.toLowerCase() + '&viewType=preview'; }
     div.appendChild(button);
 
     dom('courseDiv').appendChild(div);
     refreshRows();
 }
+
+socket.emit('getCourses');
+socket.on('coursesRes', function(res) {
+    for (var course of Object.values(res)) {
+        addBlock({
+            name: course.name,
+            category: course.category,
+            author: 'Taught by ' + course.author,
+            description: course.description,
+            dates: 'bruh'
+        });
+    }
+})
 
 window.addEventListener('resize', refreshRows);

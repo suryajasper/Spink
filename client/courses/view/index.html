@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <title>Course Name</title>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<link rel="stylesheet" href="../../resources/css/main.css">
+<script src="/socket.io/socket.io.js"></script>
+
+<body>
+    <div class="header">
+    </div>
+    <div class="main" style="margin-top: 50px;">
+        <h1 class="viewCourseName">Course Name</h1>
+        <p class="viewCourseDescription">Here is a long and detailed description about this course: The data transformation is normalizing the numeric columns to put them on the same scale, which should help prevent columns with large values from dominating model training. You'd usually
+            apply a whole bunch of pre-processing transformations like this to prepare your data for training, but we'll keep things simple in this exercise.</p>
+        <div class="viewCourseAvailabilityDiv">
+            <div class="availabilityDayGroup">
+                <p class="availabilityDay">Monday</p>
+                <ul class="availabilityTimesList">
+                    <li class="availabilityTime">5:00 PM to 6:00 PM</li>
+                    <li class="availabilityTime">5:00 PM to 6:00 PM</li>
+                </ul>
+            </div>
+            <div class="availabilityDayGroup">
+                <p class="availabilityDay">Tuesday</p>
+                <ul class="availabilityTimesList">
+                    <li class="availabilityTime">5:00 PM to 6:00 PM</li>
+                    <li class="availabilityTime">5:00 PM to 6:00 PM</li>
+                    <li class="availabilityTime">5:00 PM to 6:00 PM</li>
+                    <li class="availabilityTime">5:00 PM to 6:00 PM</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-auth.js"></script>
+    <script src="../../resources/js/auth/firebase.js"></script>
+    <script src="../../resources/js/viewCourse.js"></script>
+</body>
+
+</html>

@@ -31,11 +31,26 @@ io.on('connection', function(socket) {
             userInfo.child(userID).child('createdCourses').child(ind).set(data);
         })
         courses.once('value', function(coursesSnap) {
-            var ind = 0;
+            userInfo.child(userID).once('value', function(userSnap) {
+                data.author = userSnap.val().firstName + ' ' + userSnap.val().lastName;
+                var ind = 0;
+                if (coursesSnap && coursesSnap.val()) {
+                    ind = Object.keys(coursesSnap.val()).length;
+                }
+                courses.child(ind).set(data);
+            })
+        })
+    })
+    socket.on('getCourses', function() {
+        courses.once('value', function(coursesSnap) {
             if (coursesSnap && coursesSnap.val()) {
-                ind = Object.keys(coursesSnap.val()).length;
+                socket.emit('coursesRes', coursesSnap.val());
             }
-            courses.child(ind).set(data);
+        })
+    })
+    socket.on('getUserInfo', function(userID) {
+        userInfo.child(userID).once('value', function(userSnap) {
+            socket.emit('userInfoRes', userSnap.val());
         })
     })
 })

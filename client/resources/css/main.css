@@ -117,11 +117,24 @@ body * {
     height: 50px;
     border: none;
     background-color: #005738;
+    box-shadow: 0px 1px #15291db5;
 }
 
 .headerRight {
-    position: fixed;
-    right: 0px;
+    position: relative;
+    float: right;
+}
+
+.newClassButton {
+    height: 50%;
+    display: block;
+    text-align: center;
+    position: relative;
+    text-decoration: none;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    background-color: blue;
 }
 
 .main {
@@ -356,6 +369,18 @@ button.submit:disabled {
     }
 }
 
+@media (max-width: 1000px) {
+    .newCourseForm {
+        width: 80%;
+    }
+}
+
+@media (max-width: 750px) {
+    .newCourseForm {
+        width: 100%;
+    }
+}
+
 .course-block {
     margin: 5px;
     flex: 2;
@@ -420,4 +445,9 @@ button.submit:disabled {
 .course-block .course-block-button:active {
     background-color: #ffffff2b;
     border-width: 3px;
+}
+
+.viewCourseName {
+    text-align: center;
+    font-size: 2.5em;
 }
