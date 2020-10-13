@@ -23,7 +23,8 @@ function createInput(type, placeholder) {
     input.classList.add('form__field');
     input.id = 'generated_input' + (currInputIndex++).toString();
     input.name = input.id;
-    input.placeholder = placeholder;
+    if (placeholder)
+        input.placeholder = placeholder;
     div.appendChild(input);
 
     var label = document.createElement('label');
@@ -183,6 +184,59 @@ firebase.auth().onAuthStateChanged(function(user) {
 
             selectedDays.push(this.selectedValue);
         }
+    }
+    var sortButtons = dom('sortPanel').children;
+    for (var sortButton of sortButtons)(function(sortButton) {
+        sortButton.onclick = function(e) {
+            e.preventDefault();
+            for (var sortButton_other of sortButtons)
+                sortButton_other.classList.remove('buttonSelectSelected');
+            sortButton.classList.add('buttonSelectSelected');
+            if (sortButton.innerHTML === 'Day') {
+                document.getElementById('byDayAvailability').style.display = 'block';
+                document.getElementById('byClassGroupAvailability').style.display = 'none';
+            } else if (sortButton.innerHTML === 'Class Group') {
+                document.getElementById('byDayAvailability').style.display = 'none';
+                document.getElementById('byClassGroupAvailability').style.display = 'block';
+            }
+        }
+    })(sortButton)
+
+    var numGroups = 1;
+
+    dom('addGroupButton').onclick = function() {
+        var groupDiv = document.createElement('div');
+        groupDiv.classList.add('classGroupDiv');
+
+        var groupDivHeader = createInput('text', 'Group name');
+        groupDivHeader.div.classList.add('classGroupDivHeader');
+        groupDivHeader.input.value = 'Group ' + numGroups++;
+        groupDiv.appendChild(groupDivHeader.div);
+
+        var addClassSession = document.createElement('button');
+        addClassSession.innerHTML = 'Add New Session';
+        addClassSession.classList.add('bottomBorderButton');
+        addClassSession.onclick = function() {
+            var groupDivInputDiv = document.createElement('div');
+            groupDivInputDiv.classList.add('groupDivInputDiv');
+
+            var dayInput = createInput('text', 'Day');
+            dayInput.div.classList.add('classGroupInput');
+            groupDivInputDiv.appendChild(dayInput.div);
+
+            var startTimeInput = createInput('date', 'Start Time');
+            startTimeInput.div.classList.add('classGroupInput');
+            groupDivInputDiv.appendChild(startTimeInput.div);
+
+            var endTimeInput = createInput('date', 'End Time');
+            endTimeInput.div.classList.add('classGroupInput');
+            groupDivInputDiv.appendChild(endTimeInput.div);
+
+            groupDiv.appendChild(groupDivInputDiv);
+        }
+        groupDiv.appendChild(addClassSession);
+
+        dom('groupDiv').appendChild(groupDiv);
     }
 
     dom('createCourseButton').onclick = function() {

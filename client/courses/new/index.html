@@ -50,8 +50,15 @@
                     <label for="classSize" class="form__label">Max Number of Students</label>
                 </div>
             </div>
-            <p class="formSectionHeading">Availability</p>
-            <div class="formSection">
+            <div class="newPageAvailabilityDiv">
+                <p class="formSectionHeading">Availability</p>
+                <pre style="display: inline-block;">Create by  </pre>
+                <div id="sortPanel" class="sortPanel" style="display: inline-block;">
+                    <a class="buttonSelect buttonSelectSelected">Day</a>
+                    <a class="buttonSelect">Class Group</a>
+                </div>
+            </div>
+            <div id="byDayAvailability" class="formSection">
                 <div id="availabilityDiv">
                     <div class="custom-select">
                         <select id="dayIn">
@@ -69,6 +76,12 @@
                 <div class="form__group field">
                     <textarea rows="1" class="form__field" placeholder="Additional Notes" id="availabilityNotes"></textarea>
                     <label for="availabilityNotes" class="form__label">Additional Notes for Availability</label>
+                </div>
+            </div>
+            <div style="display: none;" id="byClassGroupAvailability" class="formSection">
+                <button class="bottomBorderButton" id="addGroupButton">Add Group</button>
+                <div id="groupDiv" class="groupAvailabilityDiv">
+
                 </div>
             </div>
             <button class="submit" id="createCourseButton">Create</button>

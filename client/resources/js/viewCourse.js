@@ -1,6 +1,10 @@
 var socket = io();
+initializeFirebase();
 
 var params = getURLObj();
+
+var registerButton = dom('registerButton');
+registerButton.disabled = true;
 
 function addAvailabilityDiv(day, total, times) {
     /*
@@ -50,5 +54,13 @@ socket.on('courseInfoRes', function(course) {
             var obj = course.availability.byDay[day];
             addAvailabilityDiv(day, obj.totalTime, obj.times);
         }
+    }
+})
+
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        registerButton.disabled = false;
+    } else {
+        registerButton.setAttribute('title', 'Log in or create an account to join');
     }
 })

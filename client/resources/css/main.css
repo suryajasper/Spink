@@ -266,6 +266,17 @@ textarea {
     border-bottom: solid 1px white;
 }
 
+.bottomBorderButton {
+    padding: 6px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    border-bottom: solid 1px white;
+}
+
 .dayDiv .dayDivButton:hover {
     border-bottom: solid 2px white;
     transition: transform 250ms ease-in-out;
@@ -450,4 +461,80 @@ button.submit:disabled {
 .viewCourseName {
     text-align: center;
     font-size: 2.5em;
+}
+
+.sortPanel {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    display: inline-block;
+}
+
+.buttonSelect {
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    position: relative;
+    margin-right: -5px;
+    border: 1px solid white;
+    padding: 14px;
+    color: white;
+    background-color: #374937;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.buttonSelectSelected {
+    background-color: #232f23;
+    color: #e3e3e3;
+}
+
+.buttonSelect:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.buttonSelect:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.newPageAvailabilityDiv {
+    border-bottom: 1px solid white;
+}
+
+.newPageAvailabilityDiv p.formSectionHeading {
+    margin-bottom: 10px;
+    width: 170px;
+    border-bottom: none;
+    display: inline-block;
+}
+
+.classGroupDiv {
+    width: 100%;
+    display: block;
+    margin-left: 10px;
+    position: relative;
+}
+
+.classGroupDiv .classGroupDivHeader {
+    /*font-size: 1.25em;*/
+    width: 200px;
+}
+
+.classGroupDiv button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+
+.groupDivInputDiv {
+    margin-left: 10px;
+}
+
+.groupDivInputDiv .classGroupInput {
+    display: inline-block;
+    width: 32%;
+    margin-right: 3px;
 }
