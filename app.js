@@ -53,6 +53,15 @@ io.on('connection', function(socket) {
             socket.emit('userInfoRes', userSnap.val());
         })
     })
+    socket.on('getCourseInfo', function(id) {
+        courses.child(id).once('value', function(snapshot) {
+            if (snapshot && snapshot.val()) {
+                socket.emit('courseInfoRes', snapshot.val());
+            } else {
+                socket.emit('courseInfoRes', null);
+            }
+        })
+    })
 })
 
 http.listen(port, function() {

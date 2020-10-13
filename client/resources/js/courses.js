@@ -1,9 +1,5 @@
 var socket = io();
 
-function dom(id) {
-    return document.getElementById(id);
-}
-
 var lastResize = 0;
 
 var detached = [];
@@ -94,7 +90,7 @@ function addBlock(data) {
     div.appendChild(addElWithClass('p', data.dates, "course-block-dates"));
 
     var button = addElWithClass('button', 'View', 'course-block-button');
-    button.onclick = function() { window.location.href = '/courses/view/?name=' + data.name.toLowerCase() + '&viewType=preview'; }
+    button.onclick = function() { window.location.href = '/courses/view/?id=' + data.courseId + '&name=' + data.name.toLowerCase() + '&viewType=preview'; }
     div.appendChild(button);
 
     dom('courseDiv').appendChild(div);
@@ -103,13 +99,15 @@ function addBlock(data) {
 
 socket.emit('getCourses');
 socket.on('coursesRes', function(res) {
-    for (var course of Object.values(res)) {
+    for (var id of Object.keys(res)) {
+        var course = res[id];
         addBlock({
             name: course.name,
             category: course.category,
             author: 'Taught by ' + course.author,
             description: course.description,
-            dates: 'bruh'
+            dates: 'bruh',
+            courseId: id
         });
     }
 })

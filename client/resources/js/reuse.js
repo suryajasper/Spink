@@ -1,3 +1,7 @@
+function dom(id) {
+    return document.getElementById(id);
+}
+
 String.prototype.replaceAll = function(toReplace, replaceWith) {
     var replaced = this.replace(toReplace, replaceWith);
     while (replaced.includes(toReplace)) {
