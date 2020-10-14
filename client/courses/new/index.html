@@ -58,19 +58,27 @@
                     <a class="buttonSelect">Class Group</a>
                 </div>
             </div>
-            <div id="byDayAvailability" class="formSection">
-                <div id="availabilityDiv">
-                    <div class="custom-select">
-                        <select id="dayIn">
-                            <option value="0">--Select All Days * </option>
-                            <option value="1">Monday</option>
-                            <option value="2">Tuesday</option>
-                            <option value="3">Wednesday</option>
-                            <option value="4">Thursday</option>
-                            <option value="5">Friday</option>
-                            <option value="6">Saturday</option>
-                            <option value="9">Sunday</option>
-                        </select>
+            <div class="formSection">
+                <div id="byDayAvailability">
+                    <div id="availabilityDiv">
+                        <div class="custom-select">
+                            <select id="dayIn">
+                                <option value="0">--Select All Days * </option>
+                                <option value="1">Monday</option>
+                                <option value="2">Tuesday</option>
+                                <option value="3">Wednesday</option>
+                                <option value="4">Thursday</option>
+                                <option value="5">Friday</option>
+                                <option value="6">Saturday</option>
+                                <option value="9">Sunday</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: none;" id="byClassGroupAvailability">
+                    <button class="bottomBorderButton" id="addGroupButton">Add Group</button>
+                    <div id="groupDiv" class="groupAvailabilityDiv">
+
                     </div>
                 </div>
                 <div class="form__group field">
@@ -78,13 +86,33 @@
                     <label for="availabilityNotes" class="form__label">Additional Notes for Availability</label>
                 </div>
             </div>
-            <div style="display: none;" id="byClassGroupAvailability" class="formSection">
-                <button class="bottomBorderButton" id="addGroupButton">Add Group</button>
-                <div id="groupDiv" class="groupAvailabilityDiv">
-
+            <button class="submit" id="createCourseButton">Create</button>
+        </div>
+    </div>
+    <div class="centered" id="sessionSettingsPopup" style="display: none;">
+        <div class="popup">
+            <p class="popuph1">Alternate</p>
+            <div class="indent">
+                <p class="popuph2">Alternate by week (ex: 2 = every 2 weeks)</p>
+                <div class="form__group field">
+                    <input type="number" class="form__field" placeholder="2" id="sessionAlternateByWeek" required/>
+                    <label for="classSize" class="form__label">Alternate by week</label>
                 </div>
             </div>
-            <button class="submit" id="createCourseButton">Create</button>
+            <p class="popuph1">Number of Students</p>
+            <div class="indent">
+                <input type="checkbox" id="sameAsCourseDefault" />
+                <label for="sameAsCourseDefault">Keep same as course default</label><br>
+                <input type="checkbox" id="sameAsGroupDefault" />
+                <label for="sameAsCourseDefault">Keep same as group default</label><br>
+                <div class="form__group field">
+                    <input type="number" class="form__field" placeholder="15" id="numStudentsPerSession" required/>
+                    <label for="classSize" class="form__label">Number of students for session</label>
+                </div>
+            </div>
+            <br>
+            <button class="bottomBorderButton saveButton" id="sessionSettingsSave">Save</button>
+            <button class="bottomBorderButton removeButton" onclick="document.getElementById('sessionSettingsPopup').style.display = 'none';">Cancel</button>
         </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
@@ -92,6 +120,7 @@
     <script src="../../resources/js/auth/firebase.js"></script>
     <script src="../../resources/js/customSelect.js"></script>
     <script src="../../resources/js/customTextarea.js"></script>
+    <script src="../../resources/js/reuse.js"></script>
     <script src="../../resources/js/newCourse.js"></script>
 </body>
 

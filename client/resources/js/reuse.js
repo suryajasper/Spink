@@ -10,6 +10,14 @@ String.prototype.replaceAll = function(toReplace, replaceWith) {
     return replaced;
 }
 
+function createElement(tag, data) {
+    var el = document.createElement(tag);
+    for (var key of Object.keys(data)) {
+        el.setAttribute(key, data[key]);
+    }
+    return el;
+}
+
 function getURLObj() {
     var url = window.location.href;
 

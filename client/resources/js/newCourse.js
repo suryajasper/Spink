@@ -213,6 +213,9 @@ firebase.auth().onAuthStateChanged(function(user) {
         groupDivHeader.input.value = 'Group ' + numGroups++;
         groupDiv.appendChild(groupDivHeader.div);
 
+        var buttonDiv = document.createElement('div');
+        buttonDiv.classList.add('buttonDiv');
+
         var addClassSession = document.createElement('button');
         addClassSession.innerHTML = 'Add New Session';
         addClassSession.classList.add('bottomBorderButton');
@@ -224,17 +227,64 @@ firebase.auth().onAuthStateChanged(function(user) {
             dayInput.div.classList.add('classGroupInput');
             groupDivInputDiv.appendChild(dayInput.div);
 
-            var startTimeInput = createInput('date', 'Start Time');
+            var startTimeInput = createInput('time', 'Start Time');
             startTimeInput.div.classList.add('classGroupInput');
             groupDivInputDiv.appendChild(startTimeInput.div);
 
-            var endTimeInput = createInput('date', 'End Time');
+            var endTimeInput = createInput('time', 'End Time');
             endTimeInput.div.classList.add('classGroupInput');
             groupDivInputDiv.appendChild(endTimeInput.div);
 
+            var settingsButton = document.createElement('img');
+            settingsButton.classList.add('settingsButton');
+            settingsButton.src = '../../resources/images/cog.svg';
+            settingsButton.onclick = function() {
+                dom('sessionSettingsPopup').style.display = 'block';
+                if ('settings' in dayInput.input) {
+                    if ('byWeek' in dayInput.input.settings)
+                        dom('sessionAlternateByWeek').value = dayInput.input.settings.byWeek;
+
+                    dom('sameAsCourseDefault').checked = dayInput.input.settings.sameAsCourseDefault;
+                    dom('sameAsGroupDefault').checked = dayInput.input.settings.sameAsGroupDefault;
+                    if ('numStudentsPerSession' in dayInput.input.settings)
+                        dom('numStudentsPerSession').value = dayInput.input.settings.numStudentsPerSession;
+                } else {
+                    dom('sessionAlternateByWeek').value = '';
+                    dom('sameAsCourseDefault').checked = false;
+                    dom('sameAsGroupDefault').checked = false;
+                    dom('numStudentsPerSession').value = '';
+                }
+                dom('sessionSettingsSave').onclick = function() {
+                    if (!('settings' in dayInput.input))
+                        dayInput.input.settings = {};
+                    if (dom('sessionAlternateByWeek').value !== '')
+                        dayInput.input.settings.byWeek = dom('sessionAlternateByWeek').value;
+
+                    dayInput.input.settings.sameAsCourseDefault = dom('sameAsCourseDefault').checked;
+                    dayInput.input.settings.sameAsGroupDefault = dom('sameAsGroupDefault').checked;
+                    if (dom('numStudentsPerSession').value !== '')
+                        dayInput.input.settings.numStudentsPerSession = dom('numStudentsPerSession').value;
+                    dom('sessionSettingsPopup').style.display = 'none';
+                }
+            }
+
+            groupDivInputDiv.appendChild(settingsButton);
+
             groupDiv.appendChild(groupDivInputDiv);
         }
-        groupDiv.appendChild(addClassSession);
+
+        var removeButton = document.createElement('button');
+        removeButton.innerHTML = 'Remove';
+        removeButton.classList.add('bottomBorderButton');
+        removeButton.classList.add('removeButton');
+        removeButton.onclick = function() {
+            groupDiv.remove();
+        }
+
+        buttonDiv.appendChild(removeButton);
+        buttonDiv.appendChild(addClassSession);
+
+        groupDiv.appendChild(buttonDiv);
 
         dom('groupDiv').appendChild(groupDiv);
     }
@@ -248,11 +298,33 @@ firebase.auth().onAuthStateChanged(function(user) {
                 ind: dom('sessionTypeInd').checked,
                 group: dom('sessionTypeGroup').checked,
                 maxSize: parseInt(dom('classSize').value)
-            },
-            availability: {
+            }
+        }
+        if (dom('byDayAvailability').style.display === 'block') {
+            data.availability = {
                 byDay: dayToTimes,
                 notes: dom('availabilityNotes').value
+            };
+        } else {
+            var groupToTimes = [];
+            for (var groupDiv of dom('groupDiv').children) {
+                var obj = {
+                    name: groupDiv.getElementsByClassName('form__group')[0].getElementsByTagName('input')[0].value,
+                    sessions: []
+                };
+                for (var timeDiv of groupDiv.getElementsByClassName('groupDivInputDiv')) {
+                    obj.sessions.push({
+                        day: timeDiv.children[0].getElementsByTagName('input')[0].value,
+                        startTime: timeDiv.children[1].getElementsByTagName('input')[0].value,
+                        endTime: timeDiv.children[2].getElementsByTagName('input')[0].value
+                    });
+                }
+                groupToTimes.push(obj);
             }
+            data.availability = {
+                byGroup: groupToTimes,
+                notes: dom('availabilityNotes').value
+            };
         }
         console.log(data);
         socket.emit('createCourse', user.uid, data);

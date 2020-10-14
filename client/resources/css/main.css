@@ -219,7 +219,7 @@ body * {
 }
 
 .newCourseForm {
-    width: 60%;
+    width: 80%;
 }
 
 .newCourseForm p.formSectionHeading {
@@ -523,10 +523,20 @@ button.submit:disabled {
     width: 200px;
 }
 
-.classGroupDiv button {
+.classGroupDiv .buttonDiv {
     position: absolute;
     top: 4px;
     right: 4px;
+}
+
+.classGroupDiv .buttonDiv button {
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.removeButton {
+    color: #f50000;
+    border-bottom-color: #f50000;
 }
 
 .groupDivInputDiv {
@@ -535,6 +545,43 @@ button.submit:disabled {
 
 .groupDivInputDiv .classGroupInput {
     display: inline-block;
-    width: 32%;
+    width: 30%;
     margin-right: 3px;
+}
+
+.settingsButton {
+    width: 40px;
+    float: right;
+    top: 18px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+}
+
+.settingsButton:hover {
+    transform: rotate(90deg);
+    transition: 1s ease-in-out;
+}
+
+.popup {
+    padding: 20px;
+    border: 2px solid gray;
+    border-radius: 3px;
+    box-shadow: #14141475 2px 2px;
+    background-color: #0d0d0d;
+    width: 500px;
+}
+
+.popup .popuph1 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.popup .popuph2 {
+    color: #b5b5b5;
+    font-size: 1.15em;
+}
+
+.indent {
+    margin-left: 15px;
 }
