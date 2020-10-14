@@ -250,9 +250,9 @@ firebase.auth().onAuthStateChanged(function(user) {
                         dom('numStudentsPerSession').value = dayInput.input.settings.numStudentsPerSession;
                 } else {
                     dom('sessionAlternateByWeek').value = '';
-                    dom('sameAsCourseDefault').checked = false;
+                    dom('sameAsCourseDefault').checked = true;
                     dom('sameAsGroupDefault').checked = false;
-                    dom('numStudentsPerSession').value = '';
+                    dom('numStudentsPerSession').value = dom('classSize').value;
                 }
                 dom('sessionSettingsSave').onclick = function() {
                     if (!('settings' in dayInput.input))
@@ -313,11 +313,14 @@ firebase.auth().onAuthStateChanged(function(user) {
                     sessions: []
                 };
                 for (var timeDiv of groupDiv.getElementsByClassName('groupDivInputDiv')) {
-                    obj.sessions.push({
+                    var timeObj = {
                         day: timeDiv.children[0].getElementsByTagName('input')[0].value,
                         startTime: timeDiv.children[1].getElementsByTagName('input')[0].value,
                         endTime: timeDiv.children[2].getElementsByTagName('input')[0].value
-                    });
+                    };
+                    if ('settings' in timeDiv.children[0].getElementsByTagName('input')[0])
+                        timeObj.settings = timeDiv.children[0].getElementsByTagName('input')[0].settings;
+                    obj.sessions.push(timeObj);
                 }
                 groupToTimes.push(obj);
             }
