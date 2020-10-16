@@ -62,6 +62,28 @@ io.on('connection', function(socket) {
             }
         })
     })
+    socket.on('register', function(userID, courseID, groupID, sessionID) {
+        var groupRef = courses.child(courseID).child('availability').child('byGroup').child(groupID).child('sessions').child(sessionID);
+        groupRef.once('value', function(groupSnap) {
+            if (groupSnap && groupSnap.val()) {
+                var val = groupSnap.val();
+                var update = {};
+                if ('registered' in val) {
+                    if (Object.values(val.registered).includes(userID)) {
+                        return;
+                    }
+                    update[Object.keys(val.registered).length] = userID;
+                } else {
+                    update[0] = userID;
+                }
+                groupRef.child('registered').update(update, function(error) {
+                    if (!error) {
+                        socket.emit('registrationSuccessful', '/');
+                    }
+                });
+            }
+        })
+    })
 })
 
 http.listen(port, function() {

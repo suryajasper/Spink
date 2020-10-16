@@ -3,9 +3,6 @@ initializeFirebase();
 
 var params = getURLObj();
 
-var registerButton = dom('registerButton');
-registerButton.disabled = true;
-
 function addAvailabilityDiv(day, total, times) {
     /*
     <div class="availabilityDayGroup">
@@ -37,63 +34,86 @@ function addAvailabilityDiv(day, total, times) {
 
     dom('availabilityDiv').appendChild(groupDiv);
 }
+firebase.auth().onAuthStateChanged(function(user) {
+    socket.emit('getCourseInfo', params.id);
+    socket.on('courseInfoRes', function(course) {
+        console.log(course);
+        // name
+        dom('courseName').innerHTML = course.name;
 
-socket.emit('getCourseInfo', params.id);
-socket.on('courseInfoRes', function(course) {
-    console.log(course);
-    // name
-    dom('courseName').innerHTML = course.name;
+        // description
+        dom('courseDescription').innerHTML = course.description.replaceAll('\n', '<br>');
 
-    // description
-    dom('courseDescription').innerHTML = course.description.replaceAll('\n', '<br>');
-
-    // availability
-    if ('byDay' in course.availability) {
-        var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        for (var day of days) {
-            if (day in course.availability.byDay) {
-                var obj = course.availability.byDay[day];
-                addAvailabilityDiv(day, obj.totalTime, obj.times);
+        // availability
+        if ('byDay' in course.availability) {
+            var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            for (var day of days) {
+                if (day in course.availability.byDay) {
+                    var obj = course.availability.byDay[day];
+                    addAvailabilityDiv(day, obj.totalTime, obj.times);
+                }
             }
-        }
-    } else if ('byGroup' in course.availability) {
-        var ul = document.createElement('ul');
-        for (var group of course.availability.byGroup) {
-            var groupEl = document.createElement('li');
-            groupEl.innerHTML = group.name;
+        } else if ('byGroup' in course.availability) {
+            var ul = document.createElement('ul');
+            for (var groupid = 0; groupid < course.availability.byGroup.length; groupid++)(function(groupid) {
+                var group = course.availability.byGroup[groupid];
+                var groupEl = document.createElement('li');
+                groupEl.innerHTML = group.name;
 
-            var sessionList = document.createElement('ul');
-            for (var session of group.sessions) {
-                var sessionEl = document.createElement('li');
+                var sessionList = document.createElement('ul');
+                for (var sessionid = 0; sessionid < group.sessions.length; sessionid++)(function(sessionid) {
+                    var session = group.sessions[sessionid];
+                    var sessionEl = document.createElement('li');
 
-                session.startTime = militaryToRegular(session.startTime);
-                session.endTime = militaryToRegular(session.endTime);
+                    session.startTime = militaryToRegular(session.startTime);
+                    session.endTime = militaryToRegular(session.endTime);
 
-                if ('settings' in session) {
-                    if ('byWeek' in session.settings) {
-                        var everyTwoWeeks = session.settings.byWeek == 2;
-                        sessionEl.innerHTML = session.day + ' every ' + (everyTwoWeeks ? 'other' : session.settings.byWeek) + (everyTwoWeeks ? ' week ' : ' weeks ') +
-                            ' from ' + session.startTime + ' to ' + session.endTime;
+                    if ('settings' in session) {
+                        if ('byWeek' in session.settings) {
+                            var everyTwoWeeks = session.settings.byWeek == 2;
+                            sessionEl.innerHTML = session.day + ' every ' + (everyTwoWeeks ? 'other' : session.settings.byWeek) + (everyTwoWeeks ? ' week ' : ' weeks ') +
+                                ' from ' + session.startTime + ' to ' + session.endTime;
+                        } else {
+                            sessionEl.innerHTML = 'Every ' + session.day + ' from ' + session.startTime + ' to ' + session.endTime;
+                        }
+
+                        var maxStudents = course.classSize.maxSize;
+                        var currStudents = 0;
+                        if ('numStudentsPerSession' in session.settings) {
+                            maxStudents = session.settings.numStudentsPerSession;
+                        }
+                        if ('registered' in session) {
+                            currStudents = Object.values(session.registered).length;
+                        }
+                        sessionEl.innerHTML += ' (' + currStudents + '/' + maxStudents + ')';
                     } else {
                         sessionEl.innerHTML = 'Every ' + session.day + ' from ' + session.startTime + ' to ' + session.endTime;
+                        if ('registered' in session) {
+                            sessionEl.innerHTML += ' (' + session.registered.length + ')';
+                        } else {
+                            sessionEl.innerHTML += ' (0)';
+                        }
                     }
-                } else {
-                    sessionEl.innerHTML = 'Every ' + session.day + ' from ' + session.startTime + ' to ' + session.endTime;
-                }
-                sessionList.appendChild(sessionEl);
-            }
-            groupEl.appendChild(sessionList);
 
-            ul.appendChild(groupEl);
+                    // register verification code
+                    if (user && user.uid !== course.authorID) {
+                        var registerButton = document.createElement('button');
+                        registerButton.innerHTML = 'Register';
+                        registerButton.onclick = function() {
+                            socket.emit('register', user.uid, params.id, groupid, sessionid);
+                            socket.on('registrationSuccessful', function(redirect) {
+                                window.location.href = redirect;
+                            })
+                        }
+                        sessionEl.appendChild(registerButton);
+                    }
+                    sessionList.appendChild(sessionEl);
+                })(sessionid)
+                groupEl.appendChild(sessionList);
+
+                ul.appendChild(groupEl);
+            })(groupid)
+            dom('availabilityDiv').appendChild(ul);
         }
-        dom('availabilityDiv').appendChild(ul);
-    }
-})
-
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        registerButton.disabled = false;
-    } else {
-        registerButton.setAttribute('title', 'Log in or create an account to join');
-    }
+    })
 })

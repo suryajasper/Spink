@@ -90,7 +90,7 @@ function addBlock(data) {
     div.appendChild(addElWithClass('p', data.dates, "course-block-dates"));
 
     var button = addElWithClass('button', 'View', 'course-block-button');
-    button.onclick = function() { window.location.href = '/courses/view/?id=' + data.courseId + '&name=' + data.name.toLowerCase() + '&viewType=preview'; }
+    button.onclick = function() { window.location.href = '/courses/register/?id=' + data.courseId + '&name=' + data.name.toLowerCase() + '&viewType=preview'; }
     div.appendChild(button);
 
     dom('courseDiv').appendChild(div);
