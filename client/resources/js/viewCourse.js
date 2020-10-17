@@ -38,10 +38,16 @@ firebase.auth().onAuthStateChanged(function(user) {
     socket.emit('getCourseInfo', params.id);
     socket.on('courseInfoRes', function(course) {
         console.log(course);
-        // name
-        dom('courseName').innerHTML = course.name;
 
-        // description
+        if (user.uid == course.authorID) {
+            dom('editButton').style.display = 'block';
+            dom('editButton').onclick = function() {
+                window.location.href = '/courses/view/?' + 'courseID=' + params.id;
+            }
+        }
+
+        // name + description
+        dom('courseName').innerHTML = course.name;
         dom('courseDescription').innerHTML = course.description.replaceAll('\n', '<br>');
 
         // availability
