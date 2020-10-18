@@ -109,6 +109,15 @@ body * {
     transform: translate(-50%, -50%);
 }
 
+.horizontalCenterOuter {
+    text-align: center;
+}
+
+.horizontalCenter {
+    display: inline-block;
+    padding: 1em;
+}
+
 .header {
     position: fixed;
     z-index: 1000;
@@ -584,4 +593,39 @@ button.submit:disabled {
 
 .indent {
     margin-left: 15px;
+}
+
+.dropdownGroup {
+    display: block;
+    position: relative;
+}
+
+.dropdownGroup .dropdownContent {
+    display: block;
+    width: 200px;
+    background-color: black;
+    border-radius: 4px;
+    border: 1px solid #cfcfcf;
+}
+
+.dropdownContent .dropdownElement {
+    width: 100%;
+    background: transparent;
+    height: 35px;
+    display: block;
+    margin: 0px;
+    border: none;
+    color: white;
+    text-align: left;
+    font-size: 1.25em;
+    border-bottom: 1px solid #cfcfcf;
+    cursor: pointer;
+}
+
+.dropdownContent .dropdownElement:hover {
+    background: rgba(153, 153, 153, 0.22);
+}
+
+.dropdownContent .dropdownElement:last-child {
+    border-bottom: none;
 }

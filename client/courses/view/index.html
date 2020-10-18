@@ -12,6 +12,42 @@
     <div class="header">
     </div>
     <div class="main" style="margin-top: 50px;">
+        <div class="horizontalCenterOuter" style="display: none;">
+            <div class="horizontalCenter">
+                <div id="sortPanel" class="sortPanel" style="display: inline-block;">
+                    <a class="buttonSelect buttonSelectSelected">Material</a>
+                    <a class="buttonSelect">Assignments</a>
+                    <a class="buttonSelect">Grades</a>
+                </div>
+            </div>
+        </div>
+        <div class="dropdownGroup">
+            <button class="bottomBorderButton dropdownButton">+</button>
+            <div class="dropdownContent">
+                <button class="dropdownElement" id="addLink">Link</button>
+                <button class="dropdownElement" id="addFile">File</button>
+                <button class="dropdownElement" id="addAssignment">Assignment</button>
+            </div>
+        </div>
+    </div>
+    <div style="display: none" class="centered" id="linkPopup">
+        <div class="popup">
+            <div class="form__group field">
+                <input type="text" class="form__field" placeholder="linkName" id="linkTitleInput" />
+                <label for="classSize" class="form__label">Title</label>
+            </div>
+            <div class="form__group field">
+                <input type="url" class="form__field" placeholder="link" id="urlInput" />
+                <label for="classSize" class="form__label">URL</label>
+            </div>
+            <br>
+            <div class="horizontalCenterOuter">
+                <div class="horizontalCenter">
+                    <button id="postLinkButton" class="bottomBorderButton">Post Link</button>
+                    <button id="cancelLinkPopupButton" class="bottomBorderButton">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-auth.js"></script>
