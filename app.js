@@ -84,6 +84,30 @@ io.on('connection', function(socket) {
             }
         })
     })
+    socket.on('addLinkToClass', function(userID, courseID, linkOptions) {
+        var materialsRef = courses.child(courseID).child('content').child('materials');
+        linkOptions.type = 'link';
+        materialsRef.once('value', function(contentsnap) {
+            var ind = 0;
+            if (contentsnap && contentsnap.val()) {
+                var content = contentsnap.val();
+                ind = Object.values(content).length;
+            }
+            materialsRef.child(ind).set(linkOptions, function(error) {
+                if (!error) {
+                    socket.emit('refresh');
+                }
+            });
+        })
+    })
+    socket.on('getClassMaterials', function(courseID) {
+        var materialsRef = courses.child(courseID).child('content').child('materials');
+        materialsRef.once('value', function(contentsnap) {
+            if (contentsnap && contentsnap.val()) {
+                socket.emit('classMaterialsRes', contentsnap.val());
+            }
+        })
+    })
 })
 
 http.listen(port, function() {

@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <link rel="stylesheet" href="../../resources/css/main.css">
+<link rel="stylesheet" href="../../resources/css/fileUpload.css">
 <script src="/socket.io/socket.io.js"></script>
 
 <body>
@@ -29,6 +30,8 @@
                 <button class="dropdownElement" id="addAssignment">Assignment</button>
             </div>
         </div>
+        <div id="classMaterials" class="classMaterials">
+        </div>
     </div>
     <div style="display: none" class="centered" id="linkPopup">
         <div class="popup">
@@ -49,10 +52,44 @@
             </div>
         </div>
     </div>
+    <div style="display: none" class="centered" id="linkPopup">
+        <div class="popup">
+            <div class="form__group field">
+                <input type="text" class="form__field" placeholder="linkName" id="linkTitleInput" />
+                <label for="classSize" class="form__label">Title</label>
+            </div>
+            <form id="file-upload-form" class="uploader">
+                <input id="file-upload" type="file" name="fileUpload" accept="image/*" />
+                <label for="file-upload" id="file-drag">
+                  <img id="file-image" src="#" alt="Preview" class="hidden">
+                  <div id="start">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <div>Select a file or drag here</div>
+                    <div id="notimage" class="hidden">Please select an image</div>
+                    <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
+                  </div>
+                  <div id="response" class="hidden">
+                    <div id="messages"></div>
+                    <progress class="progress" id="file-progress" value="0">
+                      <span>0</span>%
+                    </progress>
+                  </div>
+                </label>
+            </form>
+            <br>
+            <div class="horizontalCenterOuter">
+                <div class="horizontalCenter">
+                    <button id="postFileButton" class="bottomBorderButton">Post File</button>
+                    <button id="cancelFilePopupButton" class="bottomBorderButton">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-auth.js"></script>
     <script src="../../resources/js/auth/firebase.js"></script>
     <script src="../../resources/js/reuse.js"></script>
+    <script src="../../resources/js/fileUpload.js"></script>
     <script src="../../resources/js/courseViewEdit.js"></script>
 </body>
 
